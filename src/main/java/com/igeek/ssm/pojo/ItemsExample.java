@@ -4,7 +4,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+//商品的条件类
 public class ItemsExample {
+
+    //新增一个属性  起始值
+    private Integer begin;
+
+    public Integer getBegin() {
+        return begin;
+    }
+
+    public void setBegin(Integer begin) {
+        this.begin = begin;
+    }
+
     protected String orderByClause;
 
     protected boolean distinct;

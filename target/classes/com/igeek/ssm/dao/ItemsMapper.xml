@@ -90,6 +90,12 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+
+    <!-- 新增分页条件 limit ?,? -->
+    <if test="begin!=null">
+      limit ${begin},3
+    </if>
+
   </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.igeek.ssm.pojo.ItemsExample" >
     select

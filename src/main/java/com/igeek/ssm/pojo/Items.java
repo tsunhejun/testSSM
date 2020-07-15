@@ -1,5 +1,7 @@
 package com.igeek.ssm.pojo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Items {
@@ -11,6 +13,7 @@ public class Items {
 
     private String pic;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createtime;
 
     private String detail;
