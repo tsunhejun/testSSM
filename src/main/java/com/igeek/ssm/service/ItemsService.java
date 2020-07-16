@@ -56,4 +56,24 @@ public class ItemsService {
     public void add(Items items){
         mapper.insertSelective(items);
     }
+
+
+    //根据id查询商品
+    public Items findOne(Integer id){
+        Items items = mapper.selectByPrimaryKey(id);
+        return items;
+    }
+
+    //更新商品
+    public void update(Items items){
+        //根据主键进行非空更新
+        mapper.updateByPrimaryKeySelective(items);
+    }
+
+    //删除商品
+    public void delete(Integer[] ids){
+        for (Integer id : ids) {
+            mapper.deleteByPrimaryKey(id);
+        }
+    }
 }

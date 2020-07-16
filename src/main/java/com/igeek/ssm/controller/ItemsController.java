@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -65,6 +66,45 @@ public class ItemsController {
         //添加商品
         service.add(items);
         //为了避免重复提交表单的操作，可以选择重定向，地址栏显示目标地址
+        return "redirect:findAll.action";
+    }
+
+    //根据id查询商品
+    @RequestMapping("/findOne.action")
+    public String findOne(Integer id , Model model){
+        Items items = service.findOne(id);
+        //将数据传递至页面，数据放入到请求域
+        model.addAttribute("items",items);
+        return "editItem.jsp";
+    }
+
+
+    //更新商品信息
+    @RequestMapping("/update.action")
+    public String update(Items items,MultipartFile file) throws IOException {
+        if(file!=null){
+            String oldName = file.getOriginalFilename();
+            if(oldName!=null && oldName.length()>=0){
+                String newName = UUID.randomUUID() + oldName.substring(oldName.lastIndexOf("."));
+                file.transferTo(new File("E:\\ssm\\day3\\temp\\"+newName));
+                items.setPic("/pic/"+newName);
+            }
+        }
+
+        String itemsPic = items.getPic();
+        if(itemsPic==null){
+            //未上传，获得原来图片
+            String pic = service.findOne(items.getId()).getPic();
+            items.setPic(pic);
+        }
+        service.update(items);
+        return "redirect:findAll.action";
+    }
+
+    //批量删除商品
+    @RequestMapping("/delete.action")
+    public String delete(@RequestParam("id") Integer[] ids){
+        service.delete(ids);
         return "redirect:findAll.action";
     }
 }

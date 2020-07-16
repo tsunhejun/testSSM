@@ -25,7 +25,7 @@
 		</div>
 		<div class="col-md-4 col-lg-4">
 			<a href="addItem.jsp" class="btn btn-success">增加商品</a>
-			<input class="btn btn-danger" type="button" value="删除所有" onclick="">
+			<input class="btn btn-danger" type="button" value="删除所有" onclick="deleteAll()">
 		</div>
 	</div>
 	<div class="row" style="margin-top: 50px">
@@ -54,8 +54,9 @@
 						</c:if>
 					</td>
 					<td>
-						<a href="javascript:void(0)" class="btn btn-info" onclick="">修改</a>|
-						<a href="" class="btn btn-danger">删除</a>
+                        <%-- javascript:void(0) 超链接原来的href跳转失效 --%>
+						<a href="${pageContext.request.contextPath}/items/findOne.action?id=${items.id}" class="btn btn-info">修改</a>|
+						<a href="${pageContext.request.contextPath}/items/delete.action?id=${items.id}" class="btn btn-danger">删除</a>
 					</td>
 				</tr>
 			</c:forEach>
@@ -79,5 +80,24 @@
 	</div>
 </div>
 </body>
+<script>
 
+	/* 删除所有 */
+	function deleteAll(){
+		var str = "";
+		//迭代遍历所有的checkbox
+		$(".single").each(function(){
+			//判断当前的checkbox是否是被选中的状态  true选中
+			if($(this).prop("checked")){
+				var text = $(this).parents(".data").find(".id").text();
+				//id=1&id=2&
+				str = str + "id="+text +"&";
+			}
+		});
+		//id=1&id=2
+		str = str.substr(0,str.length-1)
+		//  url?id=1&id=2
+		window.location.href="${pageContext.request.contextPath}/items/delete.action?"+str
+	}
+</script>
 </html>
